@@ -14,7 +14,7 @@ import (
 )
 
 const (
-	apiURL = "http://api.fanyi.baidu.com/api/trans/vip/translate"
+	apiURL string = "http://api.fanyi.baidu.com/api/trans/vip/translate"
 )
 
 // For list of language codes, please refer to `https://api.fanyi.baidu.com/doc/21`
