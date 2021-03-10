@@ -5,3 +5,8 @@
 
 暂时未考虑参数检查，返回判断等健壮性问题
 
+使用方法：
+
+import baidufanyiapi "github.com/bborn2/go-baidu-fanyi-api"
+
+ret := baidufanyiapi.Translate("yourappid", "yourappkey", "en", "zh", "Hello")
