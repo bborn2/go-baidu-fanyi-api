@@ -14,12 +14,11 @@ import (
 )
 
 const (
-	apiURL string = "http://api.fanyi.baidu.com/api/trans/vip/translate"
+	apiURL = "http://api.fanyi.baidu.com/api/trans/vip/translate"
 )
 
-// For list of language codes, please refer to `https://api.fanyi.baidu.com/doc/21`
-
-func translate(appid string, appkey string, fr string, to string, query string) string {
+//Translate For list of language codes, please refer to `https://api.fanyi.baidu.com/doc/21`
+func Translate(appid string, appkey string, fr string, to string, query string) string {
 	client := &http.Client{Timeout: 5 * time.Second}
 
 	rand.Seed(int64(time.Now().UnixNano()))
