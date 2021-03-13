@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	"encoding/hex"
 	"encoding/json"
+	"errors"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -18,7 +19,7 @@ const (
 )
 
 //Translate For list of language codes, please refer to `https://api.fanyi.baidu.com/doc/21`
-func Translate(appid string, appkey string, fr string, to string, query string) string {
+func Translate(appid string, appkey string, fr string, to string, query string) (string, error) {
 	client := &http.Client{Timeout: 5 * time.Second}
 
 	rand.Seed(int64(time.Now().UnixNano()))
@@ -33,7 +34,7 @@ func Translate(appid string, appkey string, fr string, to string, query string) 
 		strings.NewReader(payload.Encode()))
 
 	if err != nil {
-		panic(err)
+		return "", err
 	}
 	defer resp.Body.Close()
 
@@ -41,9 +42,17 @@ func Translate(appid string, appkey string, fr string, to string, query string) 
 
 	var ret translateResult
 
-	json.Unmarshal(data, &ret)
+	err = json.Unmarshal(data, &ret)
+	if err != nil {
+		// panic(err)
+		return "", err
+	}
 
-	return ret.TransResult[0].Dst
+	if len(ret.TransResult) > 0 {
+		return ret.TransResult[0].Dst, nil
+	}
+
+	return "", errors.New("no reponse data")
 }
 
 func makeMd5(str string) string {

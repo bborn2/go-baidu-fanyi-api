@@ -1,8 +1,10 @@
 package baidufanyiapi
 
-import "testing"
+import (
+	"testing"
+)
 
-func Test_translate(t *testing.T) {
+func TestTranslate(t *testing.T) {
 	type args struct {
 		appid  string
 		appkey string
@@ -11,17 +13,22 @@ func Test_translate(t *testing.T) {
 		query  string
 	}
 	tests := []struct {
-		name string
-		args args
-		want string
+		name    string
+		args    args
+		want    string
+		wantErr bool
 	}{
-		// TODO: Add test cases.
-		{"translate", args{"yourappid", "yourappkey", "en", "zh", "Hello"}, "你好"},
+		{"translate", args{"yourappid", "yourappkey", "en", "zh", "Hello"}, "你好", false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := translate(tt.args.appid, tt.args.appkey, tt.args.fr, tt.args.to, tt.args.query); got != tt.want {
-				t.Errorf("translate() = %v, want %v", got, tt.want)
+			got, err := Translate(tt.args.appid, tt.args.appkey, tt.args.fr, tt.args.to, tt.args.query)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("Translate() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("Translate() = %v, want %v", got, tt.want)
 			}
 		})
 	}
